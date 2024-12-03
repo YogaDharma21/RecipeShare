@@ -2,6 +2,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import CategoryCard from "../components/CategoryCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Category } from "../types/type";
 export default function CategoryWrapper() {
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
