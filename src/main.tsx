@@ -6,6 +6,8 @@ import {
     RouterProvider,
   } from "react-router-dom";
 import Browse from './pages/Browse';
+import 'swiper/swiper-bundle.css';
+
 const router = createBrowserRouter([
   {
     path: "/",
