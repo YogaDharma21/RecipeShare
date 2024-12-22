@@ -7,16 +7,17 @@ import {
   } from "react-router-dom";
 import Browse from './pages/Browse';
 import 'swiper/swiper-bundle.css';
+import SearchDetails from './pages/SearchDetails';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Browse/>,
   },
-//   {
-//     path: "/search",
-//     element: <SearchDetails/>
-//   },
+  {
+    path: "/search",
+    element: <SearchDetails/>
+  },
 //   {
 //     path: "/recipe/:slug",
 //     element: <RecipeDetails/>
