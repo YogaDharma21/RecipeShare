@@ -9,23 +9,24 @@ export default function CategoryWrapper() {
     const [error, setError] = useState<String | null>(null);
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/categories')
-            .then(response => {
+        axios
+            .get("http://127.0.0.1:8000/api/categories")
+            .then((response) => {
                 setCategories(response.data.data);
                 setLoading(false);
             })
-            .catch(error => {
+            .catch((error) => {
                 setError(error);
                 setLoading(false);
-            })
+            });
     }, []);
 
     if (loading) {
-        return <p>Loading...</p>
+        return <p>Loading...</p>;
     }
 
     if (error) {
-        return <p>Error loading data: {error}</p>
+        return <p>Error loading data: {error}</p>;
     }
     return (
         <>
@@ -34,15 +35,25 @@ export default function CategoryWrapper() {
                     <h2 className="font-bold">By Categories</h2>
                 </div>
                 <div className="swiper w-full mt-3">
-                    <Swiper className='w-full mt-3' direction='horizontal' spaceBetween={16} slidesPerView={"auto"} slidesOffsetBefore={20} slidesOffsetAfter={20}>
+                    <Swiper
+                        className="w-full mt-3"
+                        direction="horizontal"
+                        spaceBetween={16}
+                        slidesPerView={"auto"}
+                        slidesOffsetBefore={20}
+                        slidesOffsetAfter={20}
+                    >
                         {categories.map((category) => (
-                                <SwiperSlide key={category.id} className="!w-fit pb-[30px]">
-                                    <CategoryCard category={category} />
-                                </SwiperSlide>
+                            <SwiperSlide
+                                key={category.id}
+                                className="!w-fit pb-[30px]"
+                            >
+                                <CategoryCard category={category} />
+                            </SwiperSlide>
                         ))}
                     </Swiper>
                 </div>
             </section>
         </>
-    )
+    );
 }

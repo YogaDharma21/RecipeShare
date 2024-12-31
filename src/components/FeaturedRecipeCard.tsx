@@ -1,7 +1,9 @@
 import { Recipe } from "../types/type";
 
-export default function FeaturedRecipeCard({recipe}: FeaturedRecipeCardProps) {
-    const baseUrl = 'http://127.0.0.1:8000/storage/';
+export default function FeaturedRecipeCard({
+    recipe,
+}: FeaturedRecipeCardProps) {
+    const baseUrl = "http://127.0.0.1:8000/storage/";
     return (
         <>
             <a href="details.html" className="card">
@@ -35,8 +37,7 @@ export default function FeaturedRecipeCard({recipe}: FeaturedRecipeCardProps) {
                 </div>
             </a>
         </>
-
-    )
+    );
 }
 
 interface FeaturedRecipeCardProps {

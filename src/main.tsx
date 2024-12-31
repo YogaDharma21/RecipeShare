@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Browse from "./pages/Browse";
 import "swiper/swiper-bundle.css";
 import SearchDetails from "./pages/SearchDetails";
+import CategoryDetails from "./pages/CategoryDetails";
 
 const router = createBrowserRouter([
     {
@@ -15,14 +16,14 @@ const router = createBrowserRouter([
         path: "/search",
         element: <SearchDetails />,
     },
+    {
+        path: "/category/:slug",
+        element: <CategoryDetails />,
+    },
     //   {
     //     path: "/recipe/:slug",
     //     element: <RecipeDetails/>
     //   },
-    //   {
-    //     path: "/category/:slug",
-    //     element: <CategoryDetails/>
-    //   }
 ]);
 createRoot(document.getElementById("root")!).render(
     <StrictMode>

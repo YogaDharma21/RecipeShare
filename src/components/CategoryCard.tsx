@@ -1,7 +1,7 @@
-import { Category } from "../types/type"
+import { Category } from "../types/type";
 
-export default function  CategoryCard({category}:categoryCardProps) {
-    const baseUrl = 'http://127.0.0.1:8000/storage/';
+export default function CategoryCard({ category }: categoryCardProps) {
+    const baseUrl = "http://127.0.0.1:8000/storage/";
 
     return (
         <>
@@ -14,13 +14,15 @@ export default function  CategoryCard({category}:categoryCardProps) {
                             alt="icon"
                         />
                     </div>
-                    <h3 className="font-semibold text-sm leading-[21px]">{category.name}</h3>
+                    <h3 className="font-semibold text-sm leading-[21px]">
+                        {category.name}
+                    </h3>
                 </div>
             </a>
         </>
-    )
+    );
 }
 
 interface categoryCardProps {
-    category: Category
+    category: Category;
 }
