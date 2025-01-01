@@ -1,23 +1,57 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import CategoryFeaturedRecipesWrapper from "../wrappers/CategoryFeaturedRecipesWrapper";
+import { Link, useParams } from "react-router-dom";
+import { Category } from "../types/type";
+import axios from "axios";
+import CategoryLatestRecipeWrapper from "../wrappers/CategoryLatestRecipeWrapper";
 
 export default function CategoryDetails() {
+    const { slug } = useParams<{ slug: string }>();
+    const [category, setCategory] = useState<Category | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<String | null>(null);
+    useEffect(() => {
+        axios
+            .get("http://127.0.0.1:8000/api/category/" + slug)
+            .then((response) => {
+                setCategory(response.data.data);
+                setLoading(false);
+            })
+            .catch((error) => {
+                setError(error);
+                setLoading(false);
+            });
+    }, [slug]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    if (!category) {
+        return <div>No category found</div>;
+    }
+    const baseUrl = "http://127.0.0.1:8000/storage/";
     return (
         <>
             <nav className="absolute top-0 flex w-full max-w-[640px] items-center justify-between px-5 mt-[30px] z-20">
-                <a href="index.html">
+                <Link to={"/"}>
                     <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/20">
                         <img
-                            src="assets/images/icons/arrow-left.svg"
+                            src="/assets/images/icons/arrow-left.svg"
                             className="w-5 h-5 object-contain"
                             alt="icon"
                         />
                     </div>
-                </a>
+                </Link>
                 <h1 className="font-semibold text-white">Category</h1>
                 <button className="appearance-none">
                     <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/20">
                         <img
-                            src="assets/images/icons/more.svg"
+                            src="/assets/images/icons/more.svg"
                             className="w-5 h-5 object-contain"
                             alt="icon"
                         />
@@ -28,7 +62,7 @@ export default function CategoryDetails() {
                 <div className="relative flex shrink-0 w-full h-[260px] rounded-b-[40px] bg-black overflow-hidden -mb-[45px]">
                     <div className="gradient-filter absolute w-full h-full bg-[linear-gradient(180.17deg,rgba(0,0,0,0)42.98%,rgba(0,0,0,0.76)79.32%)] z-10 rotate-180" />
                     <img
-                        src="assets/images/thumbnails/category-background.png"
+                        src="/assets/images/thumbnails/category-background.png"
                         className="w-full h-full object-cover"
                         alt="thumbnail"
                     />
@@ -38,265 +72,33 @@ export default function CategoryDetails() {
                         <div className="flex items-center gap-[10px]">
                             <div className="w-[70px] h-[70px] overflow-hidden">
                                 <img
-                                    src="assets/images/icons/bakery.png"
+                                    src={`${baseUrl}/${category.icon}`}
                                     className="w-full h-full object-cover"
                                     alt="icon"
                                 />
                             </div>
                             <div className="flex flex-col gap-[2px]">
                                 <p className="font-bold text-lg leading-[27px]">
-                                    Bakery
+                                    {category.name}
                                 </p>
                                 <p className="text-sm leading-[21px] text-[#848486]">
-                                    183,498 Recipes
+                                    {category.recipes_count} Recipes
                                 </p>
                             </div>
                         </div>
                         <button className="flex items-center justify-center w-10 h-10 rounded-full bg-white overflow-hidden shadow-[0_10px_20px_0_#D6D6D6AB]">
                             <img
-                                src="assets/images/icons/heart-black.svg"
+                                src="/assets/images/icons/heart-black.svg"
                                 alt="icon"
                             />
                         </button>
                     </div>
                 </div>
             </header>
-            <section id="MadeByPeople" className="mt-[30px]">
-                <div className="flex items-center justify-between px-5">
-                    <h2 className="font-bold">Made by People</h2>
-                </div>
-                <div className="swiper w-full mt-3">
-                    <div className="swiper-wrapper">
-                        <div className="swiper-slide !w-fit">
-                            <a href="details.html" className="card">
-                                <div className="relative w-[200px] h-[280px] rounded-[30px] bg-white overflow-hidden">
-                                    <img
-                                        src="assets/images/thumbnails/thumbnail-1.png"
-                                        className="absolute w-full h-full object-cover"
-                                        alt="thumbnails"
-                                    />
-                                    <div className="gradient-filter absolute w-full h-full bg-[linear-gradient(180deg,rgba(0,0,0,0)40.47%,#000000_81.6%)] z-10" />
-                                    <div className="relative flex flex-col h-full justify-between p-5 z-20">
-                                        <div className="flex shrink-0 items-center w-fit rounded-full py-1 px-2 bg-white/20 backdrop-blur">
-                                            <img
-                                                src="assets/images/icons/Star 1.svg"
-                                                className="w-4 h-4"
-                                                alt="star"
-                                            />
-                                            <span className="font-semibold text-xs leading-[18px] text-white">
-                                                4.5
-                                            </span>
-                                        </div>
-                                        <div className="flex flex-col gap-[6px]">
-                                            <h3 className="font-bold text-xl leading-[28px] text-white">
-                                                Orange Cake Masterpieces
-                                            </h3>
-                                            <p className="font-semibold text-xs leading-[18px] text-[#FF4C1C]">
-                                                Sweet
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div className="swiper-slide !w-fit">
-                            <a href="details.html" className="card">
-                                <div className="relative w-[200px] h-[280px] rounded-[30px] bg-white overflow-hidden">
-                                    <img
-                                        src="assets/images/thumbnails/thumbnail-2.png"
-                                        className="absolute w-full h-full object-cover"
-                                        alt="thumbnails"
-                                    />
-                                    <div className="gradient-filter absolute w-full h-full bg-[linear-gradient(180deg,rgba(0,0,0,0)40.47%,#000000_81.6%)] z-10" />
-                                    <div className="relative flex flex-col h-full justify-between p-5 z-20">
-                                        <div className="flex shrink-0 items-center w-fit rounded-full py-1 px-2 bg-white/20 backdrop-blur">
-                                            <img
-                                                src="assets/images/icons/Star 1.svg"
-                                                className="w-4 h-4"
-                                                alt="star"
-                                            />
-                                            <span className="font-semibold text-xs leading-[18px] text-white">
-                                                4.8
-                                            </span>
-                                        </div>
-                                        <div className="flex flex-col gap-[6px]">
-                                            <h3 className="font-bold text-xl leading-[28px] text-white">
-                                                Burger Tebal Makin Hot
-                                            </h3>
-                                            <p className="font-semibold text-xs leading-[18px] text-[#FF4C1C]">
-                                                Bakery
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div className="swiper-slide !w-fit">
-                            <a href="details.html" className="card">
-                                <div className="relative w-[200px] h-[280px] rounded-[30px] bg-white overflow-hidden">
-                                    <img
-                                        src="assets/images/thumbnails/thumbnail-3.png"
-                                        className="absolute w-full h-full object-cover"
-                                        alt="thumbnails"
-                                    />
-                                    <div className="gradient-filter absolute w-full h-full bg-[linear-gradient(180deg,rgba(0,0,0,0)40.47%,#000000_81.6%)] z-10" />
-                                    <div className="relative flex flex-col h-full justify-between p-5 z-20">
-                                        <div className="flex shrink-0 items-center w-fit rounded-full py-1 px-2 bg-white/20 backdrop-blur">
-                                            <img
-                                                src="assets/images/icons/Star 1.svg"
-                                                className="w-4 h-4"
-                                                alt="star"
-                                            />
-                                            <span className="font-semibold text-xs leading-[18px] text-white">
-                                                4.3
-                                            </span>
-                                        </div>
-                                        <div className="flex flex-col gap-[6px]">
-                                            <h3 className="font-bold text-xl leading-[28px] text-white">
-                                                French Toast Blueberries
-                                            </h3>
-                                            <p className="font-semibold text-xs leading-[18px] text-[#FF4C1C]">
-                                                by Masa
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section id="LatestRecipes" className="px-5 mt-[30px]">
-                <div className="flex items-center justify-between">
-                    <h2 className="font-bold">Latest Recipes</h2>
-                </div>
-                <div className="flex flex-col gap-[18px] mt-[18px]">
-                    <a href="details.html" className="card">
-                        <div className="flex rounded-[20px] p-[14px] gap-[14px] bg-white shadow-[0_12px_30px_0_#D6D6D640] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF4C1C80]">
-                            <div className="flex shrink-0 w-[100px] h-20 rounded-[20px] overflow-hidden bg-[#D9D9D9]">
-                                <img
-                                    src="assets/images/thumbnails/thumbnail-3.png"
-                                    className="w-full h-full object-cover"
-                                    alt="thumbnail"
-                                />
-                            </div>
-                            <div className="flex flex-col w-full">
-                                <div className="flex items-center justify-between">
-                                    <h3 className="font-bold text-lg leading-[24px]">
-                                        Burger Tebal Makin Hot
-                                    </h3>
-                                    <div className="flex shrink-0 items-center w-fit rounded-full py-1 px-2 bg-[#FF4C1C] shadow-[0_6px_10px_0_#FF4C1C80]">
-                                        <img
-                                            src="assets/images/icons/Star 1.svg"
-                                            className="w-4 h-4"
-                                            alt="star"
-                                        />
-                                        <span className="font-semibold text-xs leading-[18px] text-white">
-                                            4.8
-                                        </span>
-                                    </div>
-                                </div>
-                                <p className="text-sm leading-[21px] text-[#848486]">
-                                    by Shayna Alqowy
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="details.html" className="card">
-                        <div className="flex rounded-[20px] p-[14px] gap-[14px] bg-white shadow-[0_12px_30px_0_#D6D6D640] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF4C1C80]">
-                            <div className="flex shrink-0 w-[100px] h-20 rounded-[20px] overflow-hidden bg-[#D9D9D9]">
-                                <img
-                                    src="assets/images/thumbnails/thumbnail-2.png"
-                                    className="w-full h-full object-cover"
-                                    alt="thumbnail"
-                                />
-                            </div>
-                            <div className="flex flex-col w-full">
-                                <div className="flex items-center justify-between">
-                                    <h3 className="font-bold text-lg leading-[24px]">
-                                        Burger Tebal Makin Hot
-                                    </h3>
-                                    <div className="flex shrink-0 items-center w-fit rounded-full py-1 px-2 bg-[#FF4C1C] shadow-[0_6px_10px_0_#FF4C1C80]">
-                                        <img
-                                            src="assets/images/icons/Star 1.svg"
-                                            className="w-4 h-4"
-                                            alt="star"
-                                        />
-                                        <span className="font-semibold text-xs leading-[18px] text-white">
-                                            4.8
-                                        </span>
-                                    </div>
-                                </div>
-                                <p className="text-sm leading-[21px] text-[#848486]">
-                                    by Shayna Alqowy
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="details.html" className="card">
-                        <div className="flex rounded-[20px] p-[14px] gap-[14px] bg-white shadow-[0_12px_30px_0_#D6D6D640] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF4C1C80]">
-                            <div className="flex shrink-0 w-[100px] h-20 rounded-[20px] overflow-hidden bg-[#D9D9D9]">
-                                <img
-                                    src="assets/images/thumbnails/thumbnail-1.png"
-                                    className="w-full h-full object-cover"
-                                    alt="thumbnail"
-                                />
-                            </div>
-                            <div className="flex flex-col w-full">
-                                <div className="flex items-center justify-between">
-                                    <h3 className="font-bold text-lg leading-[24px]">
-                                        Burger Tebal Makin Hot
-                                    </h3>
-                                    <div className="flex shrink-0 items-center w-fit rounded-full py-1 px-2 bg-[#FF4C1C] shadow-[0_6px_10px_0_#FF4C1C80]">
-                                        <img
-                                            src="assets/images/icons/Star 1.svg"
-                                            className="w-4 h-4"
-                                            alt="star"
-                                        />
-                                        <span className="font-semibold text-xs leading-[18px] text-white">
-                                            4.8
-                                        </span>
-                                    </div>
-                                </div>
-                                <p className="text-sm leading-[21px] text-[#848486]">
-                                    by Shayna Alqowy
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="details.html" className="card">
-                        <div className="flex rounded-[20px] p-[14px] gap-[14px] bg-white shadow-[0_12px_30px_0_#D6D6D640] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF4C1C80]">
-                            <div className="flex shrink-0 w-[100px] h-20 rounded-[20px] overflow-hidden bg-[#D9D9D9]">
-                                <img
-                                    src="assets/images/thumbnails/thumbnail-2.png"
-                                    className="w-full h-full object-cover"
-                                    alt="thumbnail"
-                                />
-                            </div>
-                            <div className="flex flex-col w-full">
-                                <div className="flex items-center justify-between">
-                                    <h3 className="font-bold text-lg leading-[24px]">
-                                        Burger Tebal Makin Hot
-                                    </h3>
-                                    <div className="flex shrink-0 items-center w-fit rounded-full py-1 px-2 bg-[#FF4C1C] shadow-[0_6px_10px_0_#FF4C1C80]">
-                                        <img
-                                            src="assets/images/icons/Star 1.svg"
-                                            className="w-4 h-4"
-                                            alt="star"
-                                        />
-                                        <span className="font-semibold text-xs leading-[18px] text-white">
-                                            4.8
-                                        </span>
-                                    </div>
-                                </div>
-                                <p className="text-sm leading-[21px] text-[#848486]">
-                                    by Shayna Alqowy
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </section>
+            <div className="pt-[30px]">
+                <CategoryFeaturedRecipesWrapper />
+            </div>
+            <CategoryLatestRecipeWrapper />
         </>
     );
 }
