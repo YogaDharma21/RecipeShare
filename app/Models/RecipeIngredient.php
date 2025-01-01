@@ -9,13 +9,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RecipeIngredient extends Model
 {
-    use HasFactory,SoftDeletes;
-    public function ingredient():BelongsTo
+    use HasFactory, SoftDeletes;
+    public function ingredient(): BelongsTo
     {
-        return $this->belongsTo(Ingredient::class,'ingredient_id');
+        return $this->belongsTo(Ingredient::class, 'ingredient_id');
     }
-    public function recipe():BelongsTo
+    public function recipe(): BelongsTo
     {
-        return $this->belongsTo(Recipe::class,'recipe_id');
+        return $this->belongsTo(Recipe::class, 'recipe_id');
     }
 }

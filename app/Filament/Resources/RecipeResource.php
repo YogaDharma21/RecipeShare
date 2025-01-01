@@ -35,54 +35,54 @@ class RecipeResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                ->required()
-                ->maxLength(255),
+                    ->required()
+                    ->maxLength(255),
 
                 FileUpload::make('thumbnail')
-                ->image()
-                ->required(),
-                
+                    ->image()
+                    ->required(),
+
                 Textarea::make('about')
-                ->required()
-                ->rows(10)
-                ->cols(20),
+                    ->required()
+                    ->rows(10)
+                    ->cols(20),
 
                 Repeater::make('recipeIngredients')
-                ->relationship()
-                ->schema([
-                  Select::make('ingredient_id')
-                  ->relationship('ingredient','name')
-                  ->required()
-                ]),
+                    ->relationship()
+                    ->schema([
+                        Select::make('ingredient_id')
+                            ->relationship('ingredient', 'name')
+                            ->required()
+                    ]),
 
                 Repeater::make('photos')
-                ->relationship('photos')
-                ->schema([
-                  FileUpload::make('photo')
-                  ->required()
-                ]),
+                    ->relationship('photos')
+                    ->schema([
+                        FileUpload::make('photo')
+                            ->required()
+                    ]),
 
                 Select::make('recipe_author_id')
-                ->relationship('author','name')
-                ->searchable()
-                ->preload()
-                ->required(),
+                    ->relationship('author', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
 
                 Select::make('category_id')
-                ->relationship('category','name')
-                ->searchable()
-                ->preload()
-                ->required(),
+                    ->relationship('category', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
 
                 TextInput::make('url_video')
-                ->required()
-                ->maxLength(255),
+                    ->required()
+                    ->maxLength(255),
 
                 FileUpload::make('url_file')
-                ->downloadable()
-                ->uploadingMessage('Uploading Recipes...')
-                ->acceptedFileTypes(['application/pdf'])
-                ->required()
+                    ->downloadable()
+                    ->uploadingMessage('Uploading Recipes...')
+                    ->acceptedFileTypes(['application/pdf'])
+                    ->required()
             ]);
     }
 
@@ -91,36 +91,36 @@ class RecipeResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                ->searchable(),
+                    ->searchable(),
 
                 TextColumn::make('category.name')
-                ->searchable(),
+                    ->searchable(),
 
                 ImageColumn::make('author.photo')
-                ->circular(),
+                    ->circular(),
 
                 ImageColumn::make('thumbnail')
             ])
             ->filters([
                 SelectFilter::make('recipe_author_id')
-                ->label('Auhtor')
-                ->relationship('author','name'),
+                    ->label('Auhtor')
+                    ->relationship('author', 'name'),
 
                 SelectFilter::make('category_id')
-                ->label('Category')
-                ->relationship('category','name'),
-                
+                    ->label('Category')
+                    ->relationship('category', 'name'),
+
                 SelectFilter::make('ingredient_id')
-                ->label('Ingredient')
-                ->options(Ingredient::pluck('name','id'))
-                ->query(function (Builder $query, array $data){
-                  if($data['value']){
-                    $query->whereHas('recipeIngredients',function($query)use($data){
-                      $query->where('ingredient_id',$data['value']);
-                    });
-                  }
-                })
-              ])
+                    ->label('Ingredient')
+                    ->options(Ingredient::pluck('name', 'id'))
+                    ->query(function (Builder $query, array $data) {
+                        if ($data['value']) {
+                            $query->whereHas('recipeIngredients', function ($query) use ($data) {
+                                $query->where('ingredient_id', $data['value']);
+                            });
+                        }
+                    })
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

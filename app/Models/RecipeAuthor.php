@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RecipeAuthor extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
-    public function recipe():HasMany
+    public function recipe(): HasMany
     {
         return $this->hasMany(Recipe::class);
     }

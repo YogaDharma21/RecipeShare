@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ingredient extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     public function recipeIngredients(): HasMany
     {
-        return $this->hasMany(RecipeIngredient::class,'ingredient_id');
+        return $this->hasMany(RecipeIngredient::class, 'ingredient_id');
     }
 }

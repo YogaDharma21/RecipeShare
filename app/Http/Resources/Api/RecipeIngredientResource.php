@@ -14,9 +14,9 @@ class RecipeIngredientResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-      return[
-        'id'=>$this->id,
-        'ingredient_id'=>new IngredientResource($this->whenLoaded('ingredient')),
-      ];
+        return [
+            'id' => $this->id,
+            'ingredient_id' => new IngredientResource($this->whenLoaded('ingredient')),
+        ];
     }
 }

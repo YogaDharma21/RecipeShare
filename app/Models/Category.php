@@ -10,13 +10,14 @@ use Illuminate\Support\Str;
 
 class Category extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
-    public function setNameAttribute($value){
-      $this->attributes['name'] = $value;
-      $this->attributes['slug'] = Str::slug($value);
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = $value;
+        $this->attributes['slug'] = Str::slug($value);
     }
-    public function recipes():HasMany
+    public function recipes(): HasMany
     {
         return $this->hasMany(Recipe::class);
     }

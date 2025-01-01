@@ -9,15 +9,17 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-  public function index(){
-    $categories = Category::withCount('recipes')->get();
-    return CategoryResource::collection($categories);
-  }
+    public function index()
+    {
+        $categories = Category::withCount('recipes')->get();
+        return CategoryResource::collection($categories);
+    }
 
-  public  function show(Category $category){
-    $category->load('recipes');
-    $category->loadCount('recipes');
-    return new CategoryResource($category);
-  }
+    public function show(Category $category)
+    {
+        $category->load(['recipes.category', 'recipes.author']);
+        $category->loadCount('recipes');
+        return new CategoryResource($category);
+    }
 
 }

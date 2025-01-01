@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RecipePhoto extends Model
 {
-    use HasFactory,SoftDeletes;
-    public function recipe():BelongsTo
+    use HasFactory, SoftDeletes;
+    public function recipe(): BelongsTo
     {
-        return $this->belongsTo(Recipe::class,'recipe_id');
+        return $this->belongsTo(Recipe::class, 'recipe_id');
     }
 }

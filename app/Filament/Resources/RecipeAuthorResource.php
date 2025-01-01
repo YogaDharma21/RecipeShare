@@ -27,13 +27,13 @@ class RecipeAuthorResource extends Resource
     {
         return $form
             ->schema([
-              TextInput::make('name')
-              ->required()
-              ->maxLength(255),
+                TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
 
-              FileUpload::make('photo')
-              ->image()
-              ->required()
+                FileUpload::make('photo')
+                    ->image()
+                    ->required()
             ]);
     }
 
@@ -42,10 +42,10 @@ class RecipeAuthorResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                ->searchable(),
+                    ->searchable(),
 
                 ImageColumn::make('photo')
-                ->circular()
+                    ->circular()
             ])
             ->filters([
                 //

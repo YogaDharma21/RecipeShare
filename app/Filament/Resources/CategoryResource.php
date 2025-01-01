@@ -22,20 +22,20 @@ class CategoryResource extends Resource
     protected static ?string $model = Category::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    
+
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 TextInput::make('name')
-                ->helperText('Gunakan nama data yang tepat.')
-                ->required()
-                ->maxLength(255),
+                    ->helperText('Gunakan nama data yang tepat.')
+                    ->required()
+                    ->maxLength(255),
 
                 FileUpload::make('icon')
-                ->image()
-                ->required()
+                    ->image()
+                    ->required()
             ]);
     }
 
@@ -44,7 +44,7 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                ->searchable(),
+                    ->searchable(),
                 ImageColumn::make('icon')
             ])
             ->filters([

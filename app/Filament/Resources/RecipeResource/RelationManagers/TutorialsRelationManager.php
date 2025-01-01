@@ -30,11 +30,11 @@ class TutorialsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns([
-              TextColumn::make('sequence')
-              ->label('Step')
-              ->getStateUsing(function($rowLoop,$record){
-                return $rowLoop->iteration;
-              }),
+                TextColumn::make('sequence')
+                    ->label('Step')
+                    ->getStateUsing(function ($rowLoop, $record) {
+                        return $rowLoop->iteration;
+                    }),
                 TextColumn::make('name'),
             ])
             ->filters([
