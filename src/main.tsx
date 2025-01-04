@@ -6,6 +6,7 @@ import Browse from "./pages/Browse";
 import "swiper/swiper-bundle.css";
 import SearchDetails from "./pages/SearchDetails";
 import CategoryDetails from "./pages/CategoryDetails";
+import RecipeDetails from "./pages/RecipeDetails";
 
 const router = createBrowserRouter([
     {
@@ -20,10 +21,10 @@ const router = createBrowserRouter([
         path: "/category/:slug",
         element: <CategoryDetails />,
     },
-    //   {
-    //     path: "/recipe/:slug",
-    //     element: <RecipeDetails/>
-    //   },
+    {
+        path: "/recipe/:slug",
+        element: <RecipeDetails />,
+    },
 ]);
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
