@@ -1,6 +1,12 @@
-import React from "react";
+import { useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function RecipeDetails() {
+    const [activeTab, setActiveTab] = useState("ingredients");
+
+    const handleTabClick = (tab: string) => {
+        setActiveTab(tab);
+    };
     return (
         <>
             <nav className="absolute top-0 flex w-full max-w-[640px] items-center justify-between px-5 mt-[30px] z-20">
@@ -29,36 +35,42 @@ export default function RecipeDetails() {
             >
                 <div className="swiper">
                     <div className="swiper-wrapper">
-                        <div className="swiper-slide">
-                            <div className="relative w-full h-full flex shrink-0">
-                                <div className="gradient-filter absolute w-full h-full bg-[linear-gradient(180deg,rgba(0,0,0,0)40.47%,#000000_81.6%)] z-10" />
-                                <img
-                                    src="/assets/images/thumbnails/thumbnail-2.png"
-                                    className="w-full h-full object-cover"
-                                    alt="thumbnail"
-                                />
-                            </div>
-                        </div>
-                        <div className="swiper-slide">
-                            <div className="relative w-full h-full flex shrink-0">
-                                <div className="gradient-filter absolute w-full h-full bg-[linear-gradient(180deg,rgba(0,0,0,0)40.47%,#000000_81.6%)] z-10" />
-                                <img
-                                    src="/assets/images/thumbnails/thumbnail-1.png"
-                                    className="w-full h-full object-cover"
-                                    alt="thumbnail"
-                                />
-                            </div>
-                        </div>
-                        <div className="swiper-slide">
-                            <div className="relative w-full h-full flex shrink-0">
-                                <div className="gradient-filter absolute w-full h-full bg-[linear-gradient(180deg,rgba(0,0,0,0)40.47%,#000000_81.6%)] z-10" />
-                                <img
-                                    src="/assets/images/thumbnails/thumbnail-3.png"
-                                    className="w-full h-full object-cover"
-                                    alt="thumbnail"
-                                />
-                            </div>
-                        </div>
+                        <Swiper
+                            className="w-full"
+                            direction="horizontal"
+                            slidesPerView={"auto"}
+                        >
+                            <SwiperSlide>
+                                <div className="relative w-full h-full flex shrink-0">
+                                    <div className="gradient-filter absolute w-full h-full bg-[linear-gradient(180deg,rgba(0,0,0,0)40.47%,#000000_81.6%)] z-10" />
+                                    <img
+                                        src="/assets/images/thumbnails/thumbnail-2.png"
+                                        className="w-full h-full object-cover"
+                                        alt="thumbnail"
+                                    />
+                                </div>
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <div className="relative w-full h-full flex shrink-0">
+                                    <div className="gradient-filter absolute w-full h-full bg-[linear-gradient(180deg,rgba(0,0,0,0)40.47%,#000000_81.6%)] z-10" />
+                                    <img
+                                        src="/assets/images/thumbnails/thumbnail-1.png"
+                                        className="w-full h-full object-cover"
+                                        alt="thumbnail"
+                                    />
+                                </div>
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <div className="relative w-full h-full flex shrink-0">
+                                    <div className="gradient-filter absolute w-full h-full bg-[linear-gradient(180deg,rgba(0,0,0,0)40.47%,#000000_81.6%)] z-10" />
+                                    <img
+                                        src="/assets/images/thumbnails/thumbnail-3.png"
+                                        className="w-full h-full object-cover"
+                                        alt="thumbnail"
+                                    />
+                                </div>
+                            </SwiperSlide>
+                        </Swiper>
                     </div>
                 </div>
                 <div className="absolute bottom-0 w-full flex flex-col gap-5 z-20">
@@ -327,7 +339,6 @@ export default function RecipeDetails() {
                             src="https://www.youtube.com/embed/n1YeqIlbkxc"
                             frameBorder={0}
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen=""
                         />
                         <div className="list-items-container flex flex-col mt-[26px]">
                             <div className="list flex gap-[14px]">
