@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Recipe } from "../types/type";
 
 export default function FeaturedRecipeCard({
@@ -6,7 +7,7 @@ export default function FeaturedRecipeCard({
     const baseUrl = "http://127.0.0.1:8000/storage/";
     return (
         <>
-            <a href="details.html" className="card">
+            <Link to={`/recipe/${recipe.slug}`} className="card">
                 <div className="relative w-[200px] h-[280px] rounded-[30px] bg-white overflow-hidden">
                     <img
                         src={`${baseUrl}/${recipe.thumbnail}`}
@@ -35,7 +36,7 @@ export default function FeaturedRecipeCard({
                         </div>
                     </div>
                 </div>
-            </a>
+            </Link>
         </>
     );
 }

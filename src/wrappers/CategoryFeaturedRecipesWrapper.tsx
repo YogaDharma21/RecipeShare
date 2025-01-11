@@ -18,7 +18,7 @@ export default function BrowseFeaturedRecipesWrapper() {
                 setLoading(false);
             })
             .catch((error) => {
-                setError(error);
+                setError(error.message);
                 setLoading(false);
             });
     }, []);

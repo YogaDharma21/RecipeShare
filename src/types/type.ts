@@ -10,7 +10,14 @@ export interface Recipe {
     tutorials: Tutorial[];
     recipe_ingredients: RecipeIngredient[];
     about: string;
+    photos: Photo[];
 }
+
+interface Photo {
+    id: number;
+    photo: string;
+}
+
 interface Tutorial {
     id: number;
     name: string;
