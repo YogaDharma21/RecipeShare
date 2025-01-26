@@ -11,7 +11,9 @@ class RecipeController extends Controller
 {
     public function index()
     {
-        $recipes = Recipe::with(['photos', 'category', 'author', 'tutorials', 'recipeIngredients.ingredient'])->get();
+        $recipes = Recipe::with(['photos', 'category', 'author', 'tutorials', 'recipeIngredients.ingredient'])
+            ->latest()
+            ->paginate(12);
         return RecipeResource::collection($recipes);
     }
 
