@@ -29,7 +29,12 @@ export default function SearchDetails() {
 
         try {
             const response = await axios.get(
-                `http://127.0.0.1:8000/api/recipes/search?query=${query}`
+                `http://127.0.0.1:8000/api/recipes/search?query=${query}`,
+                {
+                    headers: {
+                        "X-API-KEY": import.meta.env.VITE_API_KEY,
+                    },
+                }
             );
             setSearchResults(response.data.data);
         } catch (error) {

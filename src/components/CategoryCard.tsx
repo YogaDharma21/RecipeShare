@@ -2,7 +2,6 @@ import { Category } from "../types/type";
 
 export default function CategoryCard({ category }: categoryCardProps) {
     const baseUrl = "http://127.0.0.1:8000/storage/";
-
     return (
         <>
             <div className="card">
