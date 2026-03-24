@@ -1,37 +1,95 @@
-# Gemini Context for Starter Kit
+# Gemini Context for RecipeShare
 
 ## Project Overview
 
-This is a **polyglot monorepo** - a template repository for managing multiple independent projects in various languages/frameworks.
+RecipeShare is a **polyglot monorepo** containing:
+- **Backend**: Laravel 11 API with Filament admin panel (PHP)
+- **Frontend**: React 18 with TypeScript and Vite (JavaScript/TypeScript)
+
+## Tech Stack
+
+| App | Framework | Language | Key Dependencies |
+|-----|-----------|----------|------------------|
+| `apps/backend` | Laravel 11 | PHP 8.2 | Filament 3.x, MySQL |
+| `apps/web` | React 18 + Vite | TypeScript | Tailwind, Axios, React Router |
+
+## Project Structure
+
+```
+apps/
+├── backend/          # Laravel 11 API
+│   ├── app/         # Controllers, Models, Services
+│   ├── routes/      # api.php, web.php
+│   ├── database/    # Migrations, Seeders
+│   ├── config/      # Laravel config
+│   └── tests/       # Pest tests
+│
+└── web/             # React frontend
+    ├── src/
+    │   ├── components/   # UI components
+    │   ├── pages/        # Route pages
+    │   ├── services/     # API calls (Axios)
+    │   ├── hooks/        # Custom hooks
+    │   └── types/        # TypeScript interfaces
+    └── public/           # Static assets
+```
 
 ## Key Principles
 
-1. **No Shared Code**: Each app in `/apps` is completely independent. Do NOT create shared components, utilities, or libraries across apps.
+1. **No Shared Code**: Backend and web are completely independent. Do NOT create shared code between them.
 
-2. **Each App Lives Alone**: Every project in `/apps/*` should be self-contained with its own:
-   - Package manager (npm, pip, cargo, go mod, etc.)
-   - Dependencies
-   - Build system
-   - Configuration files
+2. **Each App Lives Alone**:
+   - Backend uses Composer (PHP), `php artisan` commands
+   - Frontend uses npm, `npm run dev/build/lint`
 
-3. **Languages & Frameworks** are free to vary per app:
-   - `/apps/web` - Frontend apps (React, Vue, Svelte, Next.js, Nuxt, etc.)
-   - `/apps/mobile` - Mobile apps (React Native, Flutter, Swift, Kotlin, etc.)
-   - `/apps/desktop` - Desktop apps (Electron, Tauri, Qt, etc.)
-   - `/apps/backend` - Backend services (Express, FastAPI, Go, Rust, etc.)
-   - `/apps/cli` - Command-line tools
+3. **API Communication**:
+   - Frontend calls backend via REST API at `/api/*`
+   - All endpoints require `API-Key` header
+   - Base URL: `http://localhost:8000/api`
 
-4. **Docker**: Use `/docker` folder for docker-compose files that may orchestrate multiple apps.
+4. **Environment Variables**:
+   - Backend: `.env` (DB connection, APP_KEY, API_KEY)
+   - Frontend: `.env` (`VITE_API_URL`, `VITE_API_KEY`)
 
-## Working with Apps
+## Important Patterns
 
-- When asked to add a feature, find the appropriate `/apps/*` directory
-- Each app can use any language or framework it needs
-- Do NOT assume shared dependencies exist between apps
-- Tests live within each app, not at the root level
+### Backend Routes
+- API routes in `apps/backend/routes/api.php`
+- Protected by API key middleware
+- Controllers in `apps/backend/app/Http/Controllers/`
+
+### Frontend API Service
+- Axios instance in `apps/web/src/services/api.ts`
+- Types in `apps/web/src/types/`
+- Components in `apps/web/src/components/`
+
+### Database
+- Migrations in `apps/backend/database/migrations/`
+- Models in `apps/backend/app/Models/`
+
+## Development Commands
+
+### Backend
+```bash
+cd apps/backend
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan serve
+```
+
+### Frontend
+```bash
+cd apps/web
+npm install
+npm run dev
+npm run build
+```
 
 ## Important Notes
 
-- This template is intentionally minimal
-- Root files only for monorepo-level configuration
-- Individual app configurations stay inside their own directory
+- This is a recipe sharing platform with features: recipes, categories, authors, PDF download, video tutorials
+- Backend exposes REST API; frontend consumes it
+- Use `.env.example` files as reference for required environment variables
+- Tests use Pest in backend, ESLint in frontend

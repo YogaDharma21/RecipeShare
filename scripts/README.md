@@ -1,19 +1,65 @@
 # Scripts
 
-This folder contains utility scripts for the monorepo.
+Utility scripts for RecipeShare monorepo.
 
-## Purpose
+## Available Scripts
 
-- Helper scripts for common tasks
-- Build and deployment automation
-- Development environment setup
+### Install Dependencies
 
-## Usage
+**Linux/Mac:**
+```bash
+./scripts/install.sh
+```
 
-Each script should have its own documentation or `--help` flag.
+**Windows (PowerShell):**
+```powershell
+.\scripts\install.ps1
+```
 
-## Notes
+This script:
+- Installs backend dependencies (Composer)
+- Installs frontend dependencies (npm)
+- Creates `.env` files from examples
+- Generates Laravel application key
 
-- Scripts are NOT shared code between apps
-- Each app should have its own scripts if needed
-- Keep scripts language-agnostic where possible
+### Run Application
+
+**Linux/Mac:**
+```bash
+./scripts/run.sh
+```
+
+**Windows (PowerShell):**
+```powershell
+.\scripts\run.ps1
+```
+
+Starts both backend and frontend servers:
+- Backend: http://localhost:8000
+- Frontend: http://localhost:5173
+
+### Docker
+
+**Start services:**
+```bash
+# Linux/Mac
+./scripts/docker-up.sh
+
+# Windows
+.\scripts\docker-up.ps1
+```
+
+**Stop services:**
+```bash
+# Linux/Mac
+./scripts/docker-down.sh
+
+# Windows
+.\scripts\docker-down.ps1
+```
+
+## Requirements
+
+- **Install script**: PHP, Composer, Node.js, npm
+- **Run script**: Dependencies must be installed first
+- **Docker script**: Docker and Docker Compose

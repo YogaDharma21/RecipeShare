@@ -1,49 +1,58 @@
 # Docker Configuration
 
-This folder contains Docker configurations for the monorepo.
+Docker configuration for RecipeShare monorepo.
+
+## Services
+
+| Service | Container | Port | Description |
+|---------|-----------|------|-------------|
+| MySQL | recipeshare-mysql | 3306 | Database |
+| Backend | recipeshare-backend | 8000 | Laravel API |
+| Frontend | recipeshare-web | 5173 | React dev server |
 
 ## Usage
 
-### Starting all services
+### Quick Start
 
 ```bash
-docker-compose -f docker/docker-compose.yml up
+# Linux/Mac
+./scripts/docker-up.sh
+
+# Windows
+.\scripts\docker-up.ps1
 ```
 
-### Starting specific service
+### Manual Commands
 
+**Start services:**
 ```bash
-docker-compose -f docker/docker-compose.yml up <service-name>
+docker-compose -f docker/docker-compose.yml up -d
 ```
 
-### Stopping services
-
+**View logs:**
 ```bash
-docker-compose -f docker/docker-compose.yml down
+docker-compose -f docker/docker-compose.yml logs -f
 ```
 
-## Adding a new service
+**Stop services:**
+```bash
+# Linux/Mac
+./scripts/docker-down.sh
 
-1. Add your service to `docker-compose.yml`
-2. Each app in `/apps/*` should have its own `Dockerfile`
-3. Reference the app directory in the service configuration
+# Windows
+.\scripts\docker-down.ps1
+```
 
-Example:
+## Environment Variables
 
-```yaml
-services:
-  web:
-    build: 
-      context: ../apps/web
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=development
+Create `docker/.env` from the example:
+
+```env
+VITE_API_KEY=your-api-key-here
 ```
 
 ## Notes
 
-- This is a placeholder for future docker configurations
-- Each app is responsible for its own Dockerfile
-- The root docker-compose.yml orchestrates all apps
+- MySQL data is persisted in Docker volume
+- Backend storage is mounted for logs/cache
+- Frontend uses hot reload via volume mount

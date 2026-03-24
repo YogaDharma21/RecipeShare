@@ -1,68 +1,221 @@
-# Starter Kit
+# RecipeShare
 
-A **polyglot monorepo** template for managing multiple independent projects in various languages and frameworks.
+A **polyglot monorepo** for a recipe sharing platform with Laravel backend and React frontend.
 
-## Philosophy
+## Project Overview
 
-- **No shared code** - Each app is completely independent
-- **Each app lives alone** - Self-contained with own dependencies, build system, and configuration
-- **Language agnostic** - Use any framework or language per app
+RecipeShare is a web application that allows users to browse, search, and download recipes. It features a Laravel API backend with Filament admin panel and a React TypeScript frontend.
 
-## Project Structure
+### Architecture
 
 ```
-apps/           # All projects (web, mobile, desktop, backend, cli)
-├── web/        # Frontend applications
-├── mobile/     # Mobile applications
-├── desktop/    # Desktop applications
-├── backend/    # Backend services
-└── cli/        # Command-line tools
-
-docker/         # Docker configurations
-docs/           # Architecture documentation
-scripts/        # Utility scripts
-.github/        # CI/CD workflows
+recipeshare/
+├── apps/
+│   ├── backend/          # Laravel 11 API + Filament admin
+│   └── web/              # React 18 + TypeScript + Vite
+├── docker/                # Docker configurations
+├── docs/                 # Architecture documentation
+└── scripts/              # Setup and run scripts
 ```
+
+### Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| Frontend | React 18, TypeScript, Vite, Tailwind CSS, Axios |
+| Backend | Laravel 11, PHP 8.2, Filament 3.x |
+| Database | MySQL (via Docker) |
+| Admin Panel | Filament PHP |
+
+### Features
+
+- **Recipe Management**: Browse, search, and view detailed recipes
+- **Categories**: Filter recipes by category
+- **PDF Download**: Download recipes as PDF
+- **Video Tutorials**: Embedded cooking videos
+- **API Authentication**: API key protected endpoints
 
 ## Getting Started
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (for JS/TS projects)
-- [Docker](https://www.docker.com/) (for containerization)
-- [Python](https://www.python.org/) (for Python projects)
-- [Go](https://go.dev/) (for Go projects)
-- [Rust](https://www.rust-lang.org/) (for Rust projects)
+- **Backend**: PHP 8.2+, Composer
+- **Frontend**: Node.js 18+, npm
+- **Database**: MySQL 8.0+ (or use Docker)
+- **Docker**: Optional - for containerized setup
 
-### Creating a New App
+### Quick Start (Local)
 
-1. Navigate to the appropriate folder under `apps/`
-2. Initialize your project:
+#### 1. Clone and Navigate
 
 ```bash
-# Example: Creating a new web app
-cd apps/web
-npm create vite@latest my-app -- --template react
+git clone https://github.com/YogaDharma21/recipeshare.git
+cd recipeshare
 ```
 
-3. Update the CI workflow in `.github/workflows/ci.yml` if needed
+#### 2. Install Dependencies
 
-### Running with Docker
+**Windows (PowerShell):**
+```powershell
+.\scripts\install.ps1
+```
 
+**Linux/Mac:**
 ```bash
-# Start all services
-docker-compose -f docker/docker-compose.yml up
+./scripts/install.sh
+```
 
-# Start specific service
-docker-compose -f docker/docker-compose.yml up web
+#### 3. Run Applications
+
+**Windows (PowerShell):**
+```powershell
+.\scripts\run.ps1
+```
+
+**Linux/Mac:**
+```bash
+./scripts/run.sh
+```
+
+This will start:
+- Backend: http://localhost:8000
+- Frontend: http://localhost:5173
+- API: http://localhost:8000/api
+
+### Docker Setup (Optional)
+
+#### Start Services
+
+**Windows (PowerShell):**
+```powershell
+.\scripts\docker-up.ps1
+```
+
+**Linux/Mac:**
+```bash
+./scripts/docker-up.sh
+```
+
+#### Stop Services
+
+**Windows (PowerShell):**
+```powershell
+.\scripts\docker-down.ps1
+```
+
+**Linux/Mac:**
+```bash
+./scripts/docker-down.sh
+```
+
+## Project Structure
+
+### Backend (`apps/backend/`)
+
+```
+apps/backend/
+├── app/                  # Laravel application code
+├── config/               # Configuration files
+├── database/             # Migrations, seeders
+├── routes/               # API and web routes
+├── resources/            # Views, assets
+├── storage/              # Logs, cache
+├── tests/                # PHPUnit/Pest tests
+├── artisan               # CLI entry point
+├── composer.json         # PHP dependencies
+└── vite.config.js        # Asset bundling
+```
+
+**Key Commands:**
+```bash
+cd apps/backend
+composer install
+php artisan migrate
+php artisan serve
+php artisan test
+```
+
+### Frontend (`apps/web/`)
+
+```
+apps/web/
+├── src/                  # React source code
+│   ├── components/       # UI components
+│   ├── pages/            # Page components
+│   ├── hooks/            # Custom hooks
+│   ├── services/         # API calls
+│   └── types/            # TypeScript types
+├── public/               # Static assets
+├── index.html            # Entry point
+├── package.json          # Node dependencies
+├── vite.config.ts        # Vite configuration
+└── tailwind.config.js   # Tailwind CSS
+```
+
+**Key Commands:**
+```bash
+cd apps/web
+npm install
+npm run dev
+npm run build
+npm run lint
+```
+
+## API Documentation
+
+### Base URL
+```
+http://localhost:8000/api
+```
+
+### Authentication
+All API endpoints require an `API-Key` header:
+```
+API-Key: your-api-key
+```
+
+### Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/recipes` | List all recipes (paginated) |
+| GET | `/recipes/{id}` | Get recipe details |
+| GET | `/categories` | List categories |
+| GET | `/categories/{id}` | Get category with recipes |
+| GET | `/search` | Search recipes |
+
+See `apps/backend/routes/api.php` for complete API routes.
+
+## Environment Variables
+
+### Backend (.env)
+
+Copy from `.env.example` and configure:
+
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=recipeshare
+DB_USERNAME=root
+DB_PASSWORD=
+
+APP_KEY=
+API_KEY=
+```
+
+### Frontend (.env)
+
+```
+VITE_API_URL=http://localhost:8000/api
+VITE_API_KEY=your-api-key
 ```
 
 ## CI/CD
 
-This repository uses GitHub Actions with path-based filtering:
-- Changes to `apps/web/**` trigger web app builds
-- Changes to `apps/backend/**` trigger backend builds
-- Each app category has its own job
+GitHub Actions workflows are in `.github/workflows/ci.yml`:
+- Path-based triggers: `apps/backend/**` and `apps/web/**`
+- Each app has independent build and test jobs
 
 ## License
 

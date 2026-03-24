@@ -35,16 +35,3 @@ coverage/
 
 # Debug
 *.map
-
-# Root level files to ignore for subtree operations
-.cursor/
-.gemini/
-.github/
-.opencode/
-apps/
-docker/
-docs/
-scripts/
-.editorconfig
-LICENSE
-README.md

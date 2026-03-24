@@ -1,16 +1,74 @@
 version: '3.8'
 
 services:
-  # Add services from apps here
-  # Example:
-  # web:
-  #   build: ./apps/web
-  #   ports:
-  #     - "3000:3000"
-  #
-  # backend:
-  #   build: ./apps/backend
-  #   ports:
-  #     - "8080:8080"
+  # Database
+  mysql:
+    image: mysql:8.0
+    container_name: recipeshare-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: recipeshare
+      MYSQL_USER: recipeshare
+      MYSQL_PASSWORD: recipeshare
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
 
-  # Add more services as needed
+  # Backend (PHP/Laravel)
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+    container_name: recipeshare-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=recipeshare
+      - DB_USERNAME=recipeshare
+      - DB_PASSWORD=recipeshare
+    volumes:
+      - ./apps/backend:/var/www/html
+      - backend_storage:/var/www/html/storage
+    depends_on:
+      mysql:
+        condition: service_healthy
+    command: >
+      sh -c "composer install --no-dev --optimize-autoloader &&
+             php artisan key:generate &&
+             php artisan migrate --force &&
+             php artisan serve --host=0.0.0.0 --port=8000"
+
+  # Frontend (Node/React)
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: recipeshare-web
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000/api
+      - VITE_API_KEY=${VITE_API_KEY:-}
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    command: npm run dev -- --host
+
+volumes:
+  mysql_data:
+  backend_storage:
+
+networks:
+  default:
+    name: recipeshare-network
